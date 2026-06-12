@@ -160,7 +160,6 @@
 		background-color: var(--color-section-off);
 
 		.wrapper {
-			padding: 24px 0 32px 0;
 			.sub-section-wrapper {
 				display: flex;
 				flex-direction: column;
@@ -211,6 +210,7 @@
 	#home {
 
 		#hero-section {
+			margin-top: 95px;
 			.welcome {
 				width: unset;
 			}
