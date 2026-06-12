@@ -46,6 +46,7 @@ const truncate = (text: string, words: number) => {
     --color-city: #6b6b6b;
     --color-link: #A020F0;
     --color-divider: #2a2a2a;
+    --color-stroke: #262626;
 }
 
 .restaurant-card {
@@ -77,11 +78,15 @@ const truncate = (text: string, words: number) => {
             font-weight: 700;
             padding: 6px 12px;
             border-radius: 6px;
+            border: 1px solid var(--color-stroke);
         }
     }
 
     .p-card-body {
-        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+        height: 100%;
 
         .p-card-title {
             font-family: 'Playfair Display';
@@ -92,17 +97,21 @@ const truncate = (text: string, words: number) => {
         }
 
         .p-card-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
             .card-description {
                 font-family: 'Inter', sans-serif;
                 color: var(--color-text);
                 font-size: 0.95rem;
                 line-height: 1.3;
                 margin: 0 0 16px;
+                flex: 1;
             }
 
             .card-divider {
                 border: none;
-                border-top: 1px solid var(--color-divider);
+                border-top: 1px solid var(--color-stroke);
                 margin: 16px 0;
             }
 
@@ -110,6 +119,7 @@ const truncate = (text: string, words: number) => {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-top: auto;
 
                 .card-city {
                     font-family: 'Inter', sans-serif;

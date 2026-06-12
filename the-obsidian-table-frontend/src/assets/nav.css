@@ -6,9 +6,10 @@
 
 html body {
 	header {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		width: 100%;
+		z-index: 999;
 
 		.navbar {
 			padding: .8rem 1rem;
@@ -90,12 +91,11 @@ html body {
 
 	html body {
 		header {
-			position: relative;
 			.navbar {
 				padding: 1rem 5rem;
 	
 				.blog-title {
-					font-size: 48px;
+					font-size: 42px;
 					text-decoration: none;
 				}
 	

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 	import { RouterLink } from 'vue-router';
+
+	// Components
 	import RestaurantCard from '@/components/RestaurantCard.vue'
+	import Scale from '@/components/Scale.vue';
+
+	// Assets
 	import Img1 from '@/assets/img/restaurant_1.png';
 	import Img2 from '@/assets/img/dark-plate.jpg';
 
@@ -8,6 +13,7 @@
 
 <template>
 	<main id="home" class="main">
+
 		<div id="hero-section" class="section">
 			<div class="welcome">
 				<h2 class="playfair-display">Where I've been <br class="mobile-only"/> eating lately.</h2>
@@ -15,6 +21,7 @@
 				<a href="#latest-dispatches" class="btn-violet">Explore latest reviews</a>
 			</div>
 		</div>
+
 		<div id="latest-dispatches" class="section">
 			<div class="wrapper">
 				<div class="titles">
@@ -50,15 +57,62 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="how-rating" class="section">
+			<div class="wrapper">
+				<div class="sub-section-wrapper">
+					<div class="text-section">
+						<h3 class="playfair-display capitalize">How I score my meals</h3>
+						<h4 class="playfair-display capitalize">The G-Scale</h4>
+						<p>Our 0-10 scale is not arbitrary. It is a rigorously
+							weighted average of four distinct pillars of the dining
+							experience, designed to separate genuine artistry
+							from mere spectacle.
+						</p>
+						<p class="note">
+							A score above 9.0 indicates a paradigm-shifting
+							experience. Below 5.0 suggests fundamental flaws in
+							execution or concept.
+						</p>
+					</div>
+					<div class="scale-section">
+						<div class="scale-wrapper">
+							<Scale
+								title="The Food"
+								:score="9.2"
+							/>
+							<Scale
+								title="The Atmosphere"
+								:score="8.3"
+							/>
+							<Scale
+								title="The Service"
+								:score="4.7"
+							/>
+							<Scale
+								title="Is it worth it?"
+								:score="6.3"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
 </template>
 
 
 <style>
 
+:root {
+	--color-section-off: #1C1B1C;
+	--BGBackground: #131314;
+	--max-section-w: 1200px;
+}
+
 #home {
 	#hero-section {
-		padding: 48px 0;
+		padding: 100px 0 48px 0;
 		.welcome {
 			width: 320px;
 			margin: 0 auto;
@@ -95,6 +149,59 @@
 			.cards-wrapper {
 				display: flex;
 				flex-direction: column;
+				gap: 32px;
+
+			}
+		}
+	}
+
+	#how-rating {
+		padding: 0;
+		background-color: var(--color-section-off);
+
+		.wrapper {
+			padding: 24px 0 32px 0;
+			.sub-section-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 24px;
+				padding: 32px;
+
+				.text-section {
+					h3 {
+						font-size: 48px;
+						font-weight: 700;
+					}
+					h4 {
+						font-size: 28px;
+						font-weight: 700;
+					}
+
+					p {
+						line-height: 28px;
+						max-width: 430px;
+						&.note {
+							color: #908FA0;
+						}
+					}
+				}
+
+				.scale-section {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					
+					.scale-wrapper {
+						display: flex;
+						flex-direction: column;
+						row-gap: 20px;
+						width: 100%;
+						background-color: var(--BGBackground);
+						padding: 24px;
+						border-radius: 4px;
+					}
+				}
+
 			}
 		}
 	}
@@ -115,11 +222,29 @@
 				.cards-wrapper {
 					flex-direction: row;
 					justify-content: space-between;
-					gap: 40px;
+					margin-top: 32px;
 
 					.restaurant-card {
 						width: calc(100vw / 3);
 					}
+				}
+			}
+		}
+
+		#how-rating {
+			max-width: none;
+			.wrapper {
+				max-width: var(--max-section-w);
+				margin: 0 auto;
+				.sub-section-wrapper {
+					flex-direction: row;
+
+					> div {
+						/* Tell both child div to take equal space */
+						flex: 1;
+					}
+
+					
 				}
 			}
 		}
