@@ -21,6 +21,7 @@ html, body {
     background-color: var(--BGBackground);
     color: var(--WhiteAshes);
     scroll-behavior: smooth;
+    scroll-padding-top: 95px;
 }
 
 html, body, h1, h2, h3, h4, h5 {
