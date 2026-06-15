@@ -1,9 +1,3 @@
-:root {
-	--BGBackground: #131314;
-	--Obsidian-original: #A020F0;
-	--White-ashe: #C7C4D7;
-}
-
 html body {
 	header {
 		position: fixed;
@@ -61,7 +55,7 @@ html body {
 						position: relative;
 						display: flex;
 						font-size: 1.6rem;
-						color: var(--White-ashe);
+						color: var(--WhiteAshes);
 						text-decoration: none;
 						transition: color .2s;
 						width: 100%;

@@ -106,13 +106,6 @@
 
 <style>
 
-:root {
-	--color-section-off: #1C1B1C;
-	--BGBackground: #131314;
-	--Obsidian-original: #A020F0;
-	--max-section-w: 1200px;
-}
-
 #home {
 	#hero-section {
 		position: relative;
