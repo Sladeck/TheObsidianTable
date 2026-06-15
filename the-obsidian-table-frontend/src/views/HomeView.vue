@@ -142,7 +142,7 @@
 
 			h2 {
 				text-align: center;
-				font-size: 38px;
+				font-size: 42px;
 			}
 
 			p {

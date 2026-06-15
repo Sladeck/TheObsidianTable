@@ -42,6 +42,7 @@ h1, h2, h3, h4, h5 {
 }
 
 main {
+    margin-top: 100px;
     .section {
         padding: 0 2rem;
         margin-top: 48px;
@@ -99,6 +100,7 @@ a:not(.btn) {
 hr {
     height: 1px;
     width: 100%;
+    max-width: var(--max-section-w);
     border: none;
     background-color: var(--Stroke);
 }
