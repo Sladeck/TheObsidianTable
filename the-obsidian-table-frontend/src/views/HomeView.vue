@@ -119,11 +119,14 @@
 			height: 500px;
 			width: 500px;
 			background: radial-gradient(ellipse at center, rgba(160, 32, 240, 0.15) 10%, transparent 70%);
+			z-index: 0;
 		}
 
 		.welcome {
+			position: relative;
 			width: 320px;
 			margin: 0 auto;
+			z-index: 1;
 
 			span.subtitle {
 				display: block;
