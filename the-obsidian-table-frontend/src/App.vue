@@ -29,4 +29,17 @@
 
 	<RouterView />
 
+	<footer>
+		<div class="footer-wrapper">
+			<div class="legals">
+				<span class="playfair-display">The Obsidian Table</span>
+				<p>© 2025 The Obsidian Table — All rights reserved.</p>
+			</div>
+			<div class="links">
+				<a class="underline" href="https://github.com/Sladeck">My Github</a>
+				<a class="underline" href="https://github.com/Sladeck/TheObsidianTable.git">See this repository</a>
+			</div>
+		</div>
+	</footer>
+
 </template>

@@ -15,10 +15,12 @@
 	<main id="home" class="main">
 
 		<div id="hero-section" class="section">
+			<div class="bg-gradient"></div>
 			<div class="welcome">
+				<span class="subtitle">A Journey Around The World</span>
 				<h2 class="playfair-display">Where I've been <br class="mobile-only"/> eating lately.</h2>
 				<p class="subtitle">I'm not a pro, just someone who enjoys really good food and wants to share the journey.</p>
-				<a href="#latest-dispatches" class="btn-violet">Explore latest reviews</a>
+				<!-- <a href="#latest-dispatches" class="btn btn-violet">Explore latest reviews</a> -->
 			</div>
 		</div>
 
@@ -26,7 +28,7 @@
 			<div class="wrapper">
 				<div class="titles">
 					<h3 class="uppercase">Latest dispatches</h3>
-					<RouterLink to="/archives" class="underline">All archives</RouterLink>
+					<RouterLink to="/archives" class="underline">View All Archives</RouterLink>
 				</div>
 				<hr>
 				<div class="cards-wrapper">
@@ -63,7 +65,7 @@
 				<div class="sub-section-wrapper">
 					<div class="text-section">
 						<h3 class="playfair-display capitalize">How I score my meals</h3>
-						<h4 class="playfair-display capitalize">The G-Scale</h4>
+						<h4 class="capitalize">The G-Scale</h4>
 						<p>Our 0-10 scale is not arbitrary. It is a rigorously
 							weighted average of four distinct pillars of the dining
 							experience, designed to separate genuine artistry
@@ -107,24 +109,49 @@
 :root {
 	--color-section-off: #1C1B1C;
 	--BGBackground: #131314;
+	--Obsidian-original: #A020F0;
 	--max-section-w: 1200px;
 }
 
 #home {
 	#hero-section {
-		padding: 100px 0 48px 0;
+		padding: 140px 0 128px 0;
+
+		.bg-gradient {
+			position: absolute;
+			bottom: 300px;
+			right: -150px;
+			height: 500px;
+			width: 500px;
+			background: radial-gradient(ellipse at center, rgba(160, 32, 240, 0.15) 10%, transparent 70%);
+		}
+
 		.welcome {
 			width: 320px;
 			margin: 0 auto;
+
+			span.subtitle {
+				display: block;
+				color: var(--Obsidian-original);
+				font-family: 'Geist', sans-serif;
+				text-align: center;
+				text-transform: uppercase;
+				font-size: .7rem;
+				letter-spacing: 3px;
+				opacity: .4;
+				margin-bottom: 5px;
+			}
 
 			h2 {
 				text-align: center;
 				font-size: 38px;
 			}
+
 			p {
 				text-align: center;
 				margin: 24px 0;
 			}
+
 			.btn-violet {
 				display: block;
 				margin: 0 auto;
@@ -172,8 +199,10 @@
 						font-weight: 700;
 					}
 					h4 {
+						margin-top: 15px;
+						font-family: 'Geist', sans-serif;
 						font-size: 28px;
-						font-weight: 700;
+						font-weight: 300;
 					}
 
 					p {
@@ -211,8 +240,28 @@
 
 		#hero-section {
 			margin-top: 95px;
+
+			.bg-gradient {
+				position: absolute;
+				top: 0;
+				right: -150px;
+				height: 750px;
+				width: 750px;
+				background: radial-gradient(ellipse at center, rgba(160, 32, 240, 0.15) 10%, transparent 70%);
+			}
+
 			.welcome {
 				width: unset;
+
+				span.subtitle {
+					font-size: .8rem;
+					letter-spacing: 7px;
+				}
+
+				h2 {
+					text-align: center;
+					font-size: 58px;
+				}
 			}
 		}
 
@@ -238,12 +287,18 @@
 				margin: 0 auto;
 				.sub-section-wrapper {
 					flex-direction: row;
+					padding: 48px 0;
 
 					> div {
 						/* Tell both child div to take equal space */
 						flex: 1;
 					}
 
+					.text-section {
+						h4 {
+							margin-top: 0;
+						}
+					}
 					
 				}
 			}

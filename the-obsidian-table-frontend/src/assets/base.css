@@ -7,6 +7,7 @@
     --WhiteAshes: #E5E2E3;
     --WhitePink: #C7C4D7;
     --Obsidian-original: #A020F0;
+    --Obsidian-faded: #C0C1FF;
     --max-section-w: 1200px;
 }
 
@@ -38,7 +39,7 @@ h1, h2, h3, h4, h5 {
 main {
     .section {
         padding: 0 2rem;
-        margin-top: 32px;
+        margin-top: 48px;
     }
 }
 
@@ -58,15 +59,24 @@ p {
     border: none;
     padding: 1rem 2rem;
     font-family: 'Geist';
+    text-decoration: none;
 }
 
-a {
+a:not(.btn) {
     position: relative;
     color: var(--Obsidian-original);
     text-decoration: none;
+    transition: color .2s;
+    text-transform: capitalize;
+    font-family: 'Geist', sans-serif;
     
     &:hover {
         cursor: pointer;
+        color: var(--Obsidian-faded);
+
+        &.underline:after {
+            background-color: var(--Obsidian-faded);
+        }
     }
 
     &.underline:after {
@@ -77,6 +87,7 @@ a {
         background-color: var(--Obsidian-original);
         bottom: -2px;
         left: 0;
+        transition: background .2s;
     }
 }
 
@@ -103,6 +114,42 @@ hr {
     display: none;
 }
 
+footer {
+    border-top: 1px solid var(--Stroke);
+    .footer-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 12px;
+        padding: 24px;
+
+        span {
+            color: var(--Obsidian-original);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 0;
+            opacity: .7;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+
+            a {
+                width: max-content;
+                margin-bottom: 12px;
+    
+                &:last-of-type {
+                    margin-bottom: 24px;
+                }
+            }
+        }
+    }
+}
+
 
 @media (min-width: 768px) {
     .mobile-only {
@@ -114,10 +161,37 @@ hr {
 
     .main {
         .section {
-            padding: 0 2rem;
+            padding: 0;
             max-width: var(--max-section-w);
             margin-left: auto;
             margin-right: auto;
+        }
+    }
+
+    footer {
+        .footer-wrapper {
+            flex-direction: row;
+            justify-content: space-between;
+
+            padding: 24px;
+
+            p {
+                margin: 0;
+            }
+
+            .links {
+                flex-direction: row-reverse;
+                column-gap: 24px;
+                a {
+                    margin: 0;
+                    height: max-content;
+                    font-size: .8rem;
+
+                    &:first-of-type {
+                        margin: 0;
+                    }
+                }
+            }
         }
     }
 }
