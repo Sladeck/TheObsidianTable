@@ -18,6 +18,10 @@
   font-style: normal;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 html, body {
     background-color: var(--BGBackground);
     color: var(--WhiteAshes);

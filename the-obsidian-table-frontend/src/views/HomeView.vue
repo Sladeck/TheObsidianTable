@@ -115,11 +115,13 @@
 
 #home {
 	#hero-section {
+		position: relative;
 		padding: 140px 0 128px 0;
+		overflow-x: hidden;
 
 		.bg-gradient {
 			position: absolute;
-			bottom: 300px;
+			bottom: 0;
 			right: -150px;
 			height: 500px;
 			width: 500px;
@@ -240,11 +242,12 @@
 
 		#hero-section {
 			margin-top: 95px;
+			overflow: visible;
 
 			.bg-gradient {
 				position: absolute;
-				top: 0;
-				right: -150px;
+				top: -20px;
+				right: -300px;
 				height: 750px;
 				width: 750px;
 				background: radial-gradient(ellipse at center, rgba(160, 32, 240, 0.15) 10%, transparent 70%);
