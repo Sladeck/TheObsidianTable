@@ -92,7 +92,7 @@
 					text-transform: capitalize;
 					
 					span {
-						color: var(--Obsidian-faded);
+						color: var(--Obsidian);
 						font-style: italic;
 					}
 				}
@@ -133,11 +133,11 @@
 				margin-top: 48px;
 
 				.element {
-					background-color: #1C1B1C;
+					background-color: var(--SectionOff);
 					flex: 1 0 50%;
 					padding: 24px;
 					border-radius: 4px;
-					border: 1px solid #222227;
+					border: 1px solid var(--Stroke);
 
 					.title {
 						display: flex;
@@ -149,7 +149,7 @@
 							display: inline-block;
 							height: 24px;
 							width: 24px;
-							fill: var(--Obsidian-faded);
+							fill: var(--Obsidian);
 						}
 						span {
 							font-size: 24px;

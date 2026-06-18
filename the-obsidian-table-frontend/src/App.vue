@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import { RouterView } from "vue-router";
+	import { onMounted, onUnmounted } from 'vue'
 	import Menubar from 'primevue/menubar';
 	import type { MenuItem } from 'primevue/menuitem'
 	import './assets/base.css'
@@ -11,6 +12,18 @@
 		{ label: 'Archives', route: '/archives' },
 		{ label: 'About', route: '/about' },
 	]
+
+	if(window.innerWidth > 768) {
+		const handleNavScroll = () => {
+			const header = document.querySelector('header') as HTMLElement
+			if (header) {
+				header.classList.toggle('scrolled', window.scrollY > 50)
+			}
+		}
+
+		onMounted(() => window.addEventListener('scroll', handleNavScroll))
+		onUnmounted(() => window.removeEventListener('scroll', handleNavScroll))
+	}
 </script>
 
 <template>

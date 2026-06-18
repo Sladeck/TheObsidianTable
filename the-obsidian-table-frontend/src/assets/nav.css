@@ -4,8 +4,20 @@ html body {
 		top: 0;
 		width: 100%;
 		z-index: 999;
+		transition: all 0.3s ease;
+
+		&.scrolled {
+			.navbar {
+				padding: 0.4rem 5rem;
+	
+				.blog-title {
+					font-size: 32px;
+				}
+			}
+		}
 
 		.navbar {
+			transition: all 0.3s ease;
 			padding: .8rem 1rem;
 			justify-content: space-between;
 			background-color: var(--BGBackground);
@@ -13,14 +25,15 @@ html body {
 			border-bottom: 1px solid #222227;
 
 			.blog-title {
-				color: var(--Obsidian-original);
+				color: var(--Obsidian);
 				text-decoration: none;
 				font-size: 32px;
+				transition: font-size 0.3s ease;
 			}
 
 			&.p-menubar-mobile {
 				svg {
-					color: var(--Obsidian-original);
+					color: var(--Obsidian);
 					height: 24px;
 					width: 24px;
 				}
@@ -62,7 +75,7 @@ html body {
 						font-family: 'Geist';
 
 						&.router-link-exact-active {
-							color: var(--Obsidian-original);
+							color: var(--Obsidian);
 	
 							&::after {
 								content: "";
@@ -71,7 +84,7 @@ html body {
 								left: 0;
 								width: 100%;
 								height: 1px;
-								background-color: var(--Obsidian-original);	
+								background-color: var(--Obsidian);	
 							}
 						}
 					}
@@ -112,7 +125,7 @@ html body {
 							font-size: 1.1rem;
 			
 							&:hover {
-								color: var(--Obsidian-original);
+								color: var(--Obsidian);
 								
 							}
 						}

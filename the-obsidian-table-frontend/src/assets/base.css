@@ -2,14 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
-    --BGBackground: #131314;
-    --Stroke: #1A1A1A;
+    /* Layout */
+    --max-section-w: 1200px;
+
+    /* Backgrounds */
+    --BGBackground: #1C1E1F;
+    --BGCard: #222425;
+    --SectionOff: #222425;
+
+    /* Strokes & Dividers */
+    --Stroke: #262626;
+    --Divider: #2A2A2A;
+
+    /* Text */
     --WhiteAshes: #E5E2E3;
     --WhitePink: #C7C4D7;
-    --Obsidian-original: #A020F0;
-    --Obsidian-faded: #C0C1FF;
-    --color-section-off: #1C1B1C;
-    --max-section-w: 1200px;
+    --TextMuted: #aaaaaa;
+    --TextFaint: #6B6B6B;
+
+    /* Accent */
+    /* --Obsidian: #A020F0; */
+    --Obsidian: #7B61FF;
+    --ObsidianFaded: #9b87ff;
+    --ObsidianSoft: #C0C1FF;
 }
 
 .playfair-display {
@@ -28,6 +43,17 @@ html, body {
     color: var(--WhiteAshes);
     scroll-behavior: smooth;
     scroll-padding-top: 95px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
 html, body, h1, h2, h3, h4, h5 {
@@ -60,7 +86,7 @@ p {
 }
 
 .btn-violet {
-    background-color: var(--Obsidian-original);
+    background-color: var(--Obsidian);
     color: var(--WhiteAshes);
     border: none;
     padding: 1rem 2rem;
@@ -70,7 +96,7 @@ p {
 
 a:not(.btn) {
     position: relative;
-    color: var(--Obsidian-original);
+    color: var(--Obsidian);
     text-decoration: none;
     transition: color .2s;
     text-transform: capitalize;
@@ -78,10 +104,10 @@ a:not(.btn) {
     
     &:hover {
         cursor: pointer;
-        color: var(--Obsidian-faded);
+        color: var(--ObsidianFaded);
 
         &.underline:after {
-            background-color: var(--Obsidian-faded);
+            background-color: var(--ObsidianFaded);
         }
     }
 
@@ -90,10 +116,10 @@ a:not(.btn) {
         position: absolute;
         height: 1px;
         width: 100%;
-        background-color: var(--Obsidian-original);
+        background-color: var(--Obsidian);
         bottom: -2px;
         left: 0;
-        transition: background .2s;
+        transition: all .2s;
     }
 }
 
@@ -130,15 +156,16 @@ footer {
         padding: 24px;
 
         span {
-            color: var(--Obsidian-original);
-            font-size: 24px;
+            color: var(--Obsidian);
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
         p {
+            display: block;
             font-size: 14px;
             margin-bottom: 0;
-            opacity: .7;
+            opacity: .5;
         }
 
         .links {
@@ -183,7 +210,7 @@ footer {
             padding: 24px;
 
             p {
-                margin: 0;
+                margin: 5px 0 0;
             }
 
             .links {

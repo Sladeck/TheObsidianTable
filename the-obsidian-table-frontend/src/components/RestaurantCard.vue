@@ -30,128 +30,107 @@ const truncate = (text: string, words: number) => {
             <hr class="card-divider" />
             <div class="card-footer">
                 <span class="card-city">{{ city }}</span>
-                <RouterLink :to="`/restaurant/${slug}`" class="card-link">Read the review</RouterLink>
+                <RouterLink :to="`/restaurant/${slug}`" class="card-link underline">Read the review</RouterLink>
             </div>
         </template>
     </Card>
 </template>
 
 <style>
-:root {
-    --color-bg-card: #121214;
-    --color-score-bg: #121214;
-    --color-score: #A020F0;
-    --color-title: #ffffff;
-    --color-text: #a0a0a0;
-    --color-city: #6b6b6b;
-    --color-link: #A020F0;
-    --color-divider: #2a2a2a;
-    --color-stroke: #262626;
-}
+    .restaurant-card {
+        background-color: var(--BGCard);
+        border-radius: 4px !important;
+        overflow: hidden;
+        width: 320px;
+        border: 1px solid var(--Divider);
 
-.restaurant-card {
-    background: var(--color-bg-card);
-    border-radius: 4px !important;
-    overflow: hidden;
-    width: 320px;
-    border: 1px solid var(--color-divider);
+        .card-image-wrapper {
+            position: relative;
 
-    .card-image-wrapper {
-        position: relative;
+            .card-image {
+                width: 100%;
+                height: 250px;
+                aspect-ratio: 1;
+                object-fit: cover;
+                display: block;
+            }
 
-        .card-image {
-            width: 100%;
-            height: 250px;
-            aspect-ratio: 1;
-            object-fit: cover;
-            display: block;
+            .card-score {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                color: var(--Obsidian);
+                background-color: var(--BGBackground);
+                font-family: 'Geist', sans-serif;
+                font-size: 1.2rem;
+                font-weight: 700;
+                padding: 6px 12px;
+                border-radius: 6px;
+                border: 1px solid var(--Stroke);
+            }
         }
 
-        .card-score {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--color-score-bg);
-            color: var(--color-score);
-            font-family: 'Geist', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--color-stroke);
-        }
-    }
-
-    .p-card-body {
-        display: flex;
-        flex-direction: column;
-        padding: 18px;
-        height: 100%;
-
-        .p-card-title {
-            font-family: 'Playfair Display';
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--color-title);
-            margin-bottom: 12px;
-        }
-
-        .p-card-content {
+        .p-card-body {
             display: flex;
             flex-direction: column;
-            flex: 1;
-            .card-description {
-                font-family: 'Inter', sans-serif;
-                color: var(--color-text);
-                font-size: 0.95rem;
-                line-height: 1.3;
-                margin: 0 0 16px;
-                flex: 1;
+            padding: 18px;
+            height: 100%;
+            background-color: var(--BGCard);
+
+            .p-card-title {
+                font-family: 'Playfair Display';
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--WhiteAshes);
+                margin-bottom: 12px;
             }
 
-            .card-divider {
-                border: none;
-                border-top: 1px solid var(--color-stroke);
-                margin: 16px 0;
-            }
-
-            .card-footer {
+            .p-card-content {
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: auto;
+                flex-direction: column;
+                flex: 1;
 
-                .card-city {
+                .card-description {
                     font-family: 'Inter', sans-serif;
-                    color: var(--color-city);
-                    font-size: 0.85rem;
+                    color: var(--TextMuted);
+                    font-size: 0.95rem;
+                    line-height: 1.3;
+                    margin: 0 0 16px;
+                    flex: 1;
                 }
 
-                .card-link {
-                    font-family: 'Inter', sans-serif;
-                    color: var(--color-link);
-                    font-size: 0.85rem;
-                    font-weight: 600;
-                    text-decoration: none;
+                .card-divider {
+                    border: none;
+                    border-top: 1px solid var(--Stroke);
+                    margin: 16px 0;
+                }
 
-                    &:hover {
-                        text-decoration: underline;
+                .card-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-top: auto;
+
+                    .card-city {
+                        font-family: 'Inter', sans-serif;
+                        color: var(--TextFaint);
+                        font-size: 0.85rem;
+                    }
+
+                    .card-link {
+                        font-size: 0.85rem;
+                        font-weight: 600;
                     }
                 }
             }
         }
-    }
 
-    @media (max-width: 768px) {
-        width: 100%;
+        @media (max-width: 768px) {
+            width: 100%;
 
-        .restaurant-card {
-            .card-image-wrapper {
-                .card-image {
-                    height: 100%;
-                }
+            .card-image {
+                height: 100%;
             }
         }
     }
-}
 </style>
