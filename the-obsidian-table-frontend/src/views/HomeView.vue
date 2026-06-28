@@ -62,28 +62,34 @@
 				<hr>
 				<div class="cards-wrapper">
 					<RestaurantCard
-						name="Vesper & Vine"
+						name="たなかさん"
 						:image="Img1"
 						:score="9.4"
+						:priceLevel=2
 						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
 						city="London, UK"
 						slug="vesper-and-vine"
+						cuisine="Japanese"
 					/>
 					<RestaurantCard
 						name="Le plus grand restaurant du monde"
 						:image="Img2"
 						:score="9.4"
+						:priceLevel=3
 						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
 						city="London, UK"
-						slug="vesper-and-vine"
+						slug="le-plus-grand-restaurant-du-monde"
+						cuisine="French"
 					/>
 					<RestaurantCard
 						name="Vesper & Vine"
 						:image="Img1"
 						:score="9.4"
+						:priceLevel=1
 						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
 						city="London, UK"
 						slug="vesper-and-vine"
+						cuisine="Italian"
 					/>
 				</div>
 			</div>

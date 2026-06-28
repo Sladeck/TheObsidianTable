@@ -1,36 +1,64 @@
 <script setup lang="ts">
-import Card from 'primevue/card'
+    import Card from 'primevue/card';
+    import { useRouter } from 'vue-router';
 
-defineProps<{
-    name: string
-    image: string
-    score: number
-    description: string
-    city: string
-    slug: string
-}>()
+    const router = useRouter()
 
-const truncate = (text: string, words: number) => {
-  return text.split(' ').slice(0, words).join(' ') + '...'
-}
+    const props = defineProps<{
+        name: string
+        image: string
+        score: number
+        description: string
+        city: string
+        slug: string
+        cuisine: string
+        priceLevel: number
+    }>()
+
+    const truncate = (text: string, words: number) => {
+        const wordsArray = text.split(' ')
+        if (wordsArray.length <= words) return text
+        return wordsArray.slice(0, words).join(' ') + '...'
+    }
+
+    const priceSign = (level: number) => '$'.repeat(level)
+
+    const goToRestaurant = () => {
+        router.push(`/restaurant/${props.slug}`)
+    }
+
+    const scoreColor = (score: number) => {
+        if (score >= 9) return 'var(--Obsidian)'
+        if (score >= 7.5) return 'color-mix(in srgb, var(--Obsidian) 70%, var(--TextMuted))'
+        return 'var(--TextMuted)'
+    }
 
 </script>
-
 <template>
-    <Card class="restaurant-card">
+    <Card 
+        class="restaurant-card"
+        role="link"
+        :aria-label="`Read review of ${name}`"
+        tabindex="0"
+        @click="goToRestaurant"
+        @keydown.enter="goToRestaurant"
+    >
         <template #header>
             <div class="card-image-wrapper">
                 <img :src="image" :alt="name" class="card-image" />
-                <span class="card-score">{{ score }}</span>
+                <span class="card-score" :style="{ color: scoreColor(score) }">{{ score }}</span>
             </div>
         </template>
-        <template #title>{{ name }}</template>
+        <template #title>
+            <span class="card-cuisine">{{ cuisine }}</span>
+            <span class="card-title-text">{{ truncate(name, 6) }}</span>
+        </template>
         <template #content>
             <p class="card-description">{{ truncate(description, 20) }}</p>
             <hr class="card-divider" />
             <div class="card-footer">
                 <span class="card-city">{{ city }}</span>
-                <RouterLink :to="`/restaurant/${slug}`" class="card-link underline">Read the review</RouterLink>
+                <span class="card-price">{{ priceSign(priceLevel) }}</span>
             </div>
         </template>
     </Card>
@@ -43,30 +71,47 @@ const truncate = (text: string, words: number) => {
         overflow: hidden;
         width: 320px;
         border: 1px solid var(--Divider);
+        cursor: pointer;
 
-        .card-image-wrapper {
-            position: relative;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
 
-            .card-image {
-                width: 100%;
-                height: 250px;
-                aspect-ratio: 1;
-                object-fit: cover;
-                display: block;
-            }
+        &:hover {
+            box-shadow: 0 8px 24px color-mix(in srgb, var(--Obsidian) 25%, transparent);
+            transform: translateY(-4px);
+        }
 
-            .card-score {
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                color: var(--Obsidian);
-                background-color: var(--BGBackground);
-                font-family: 'Geist', sans-serif;
-                font-size: 1.2rem;
-                font-weight: 700;
-                padding: 6px 12px;
-                border-radius: 6px;
-                border: 1px solid var(--Stroke);
+        &:focus-visible {
+            outline: 2px solid var(--Obsidian);
+            outline-offset: 2px;
+        }
+
+        .p-card-header {
+
+            .card-image-wrapper {
+                position: relative;
+
+                .card-image {
+                    width: 100%;
+                    height: 250px;
+                    aspect-ratio: 1;
+                    object-fit: cover;
+                    object-position: center;
+                    display: block;
+                }
+
+                .card-score {
+                    position: absolute;
+                    top: 12px;
+                    right: 12px;
+                    color: var(--Obsidian);
+                    background-color: var(--BGCard);
+                    font-family: 'Geist', sans-serif;
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    border: 1px solid var(--Stroke);
+                }
             }
         }
 
@@ -76,6 +121,16 @@ const truncate = (text: string, words: number) => {
             padding: 18px;
             height: 100%;
             background-color: var(--BGCard);
+
+            .card-cuisine {
+                display: block;
+                font-family: 'Geist', 'Inter', sans-serif;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--Obsidian);
+                margin-bottom: 4px;
+            }
 
             .p-card-title {
                 font-family: 'Playfair Display';
@@ -112,14 +167,16 @@ const truncate = (text: string, words: number) => {
                     margin-top: auto;
 
                     .card-city {
-                        font-family: 'Inter', sans-serif;
-                        color: var(--TextFaint);
+                        font-family: 'Geist', 'Inter', sans-serif;
+                        color: var(--TextMuted);
                         font-size: 0.85rem;
+                        letter-spacing: 2px;
                     }
 
-                    .card-link {
-                        font-size: 0.85rem;
+                    .card-price {
+                        font-family: 'Geist', 'Inter', sans-serif;
                         font-weight: 600;
+                        color: var(--TextMuted);
                     }
                 }
             }

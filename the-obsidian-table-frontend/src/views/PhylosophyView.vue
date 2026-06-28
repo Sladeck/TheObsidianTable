@@ -2,6 +2,7 @@
 	<main id="phylo" class="main">
 
 		<div id="whyeat" class="section">
+			<div class="gradient desktop-only"></div>
 			<div class="wrapper">
 				<div class="text-section">
 					<h2 class="playfair-display">Why I eat <br class="desktop-only" /> <span>& Write</span></h2>
@@ -77,6 +78,17 @@
 #phylo {
 
 	#whyeat {
+		position: relative;
+		.gradient {
+			position: absolute;
+			top: -100px;
+			left: -550px;
+			height: 800px;
+			width: 800px;
+			background: radial-gradient(ellipse at center, color-mix(in srgb, var(--Obsidian) 8%, transparent) 10%, transparent 70%);
+			z-index: 0;
+		}
+
 		padding: 0;
 
 		.wrapper {

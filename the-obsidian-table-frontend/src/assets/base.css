@@ -7,12 +7,12 @@
 
     /* Backgrounds */
     --BGBackground: #1C1E1F;
-    --BGCard: #222425;
-    --SectionOff: #222425;
+    --BGCard: #121213;
+    --SectionOff: #252729;
 
     /* Strokes & Dividers */
-    --Stroke: #262626;
-    --Divider: #2A2A2A;
+    --Stroke: #252729;
+    --Divider: #252729;
 
     /* Text */
     --WhiteAshes: #E5E2E3;
@@ -107,20 +107,18 @@ a:not(.btn) {
         color: var(--ObsidianFaded);
 
         &.underline:after {
+            content: "";
+            position: absolute;
+            height: 1px;
+            width: 100%;
             background-color: var(--ObsidianFaded);
+            bottom: -2px;
+            left: 0;
+            transition: all .2s;
         }
     }
 
-    &.underline:after {
-        content: "";
-        position: absolute;
-        height: 1px;
-        width: 100%;
-        background-color: var(--Obsidian);
-        bottom: -2px;
-        left: 0;
-        transition: all .2s;
-    }
+    
 }
 
 hr {
@@ -142,6 +140,11 @@ hr {
 .capitalize {
     text-transform: capitalize;
 }
+
+/* input, select {
+    background-color: black;
+    color: white;
+} */
 
 .desktop-only {
     display: none;
