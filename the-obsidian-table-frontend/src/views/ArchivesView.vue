@@ -233,9 +233,9 @@
 		.section {
 			.wrapper {
 				.titles-filters {
-					flex-direction: row;
-					align-items: flex-end;
-					column-gap: 24px;
+					flex-direction: column;
+					align-items: flex-start;
+					row-gap: 24px;
 
 					.titles {
 						h2 {
@@ -246,9 +246,9 @@
 					.filters {
 						display: flex;
 						flex-direction: row;
-						flex-wrap: wrap;
-						row-gap: 12px;
+						flex-wrap: nowrap;
 						column-gap: 24px;
+						width: 100%;
 
 						.p-autocomplete, .p-multiselect {
 							width: max-content;
