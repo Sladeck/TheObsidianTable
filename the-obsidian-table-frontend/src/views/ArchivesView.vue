@@ -1,9 +1,6 @@
 <script setup>
-	import { ref, onMounted } from "vue";
+	import { ref, computed, watch, onMounted } from "vue";
 	import { AutoComplete, MultiSelect, Skeleton } from "primevue";
-	
-	// Assets
-	import { CountryService } from "@/service/CountryService";
 
 	// Services
 	import { RestaurantService } from "@/service/RestaurantService";
@@ -16,8 +13,6 @@
 	const error = ref(false);
 
 	onMounted(() => {
-		CountryService.getCountries().then((data) => (countries.value = data));
-
 		RestaurantService.getRestaurants()
 			.then((data) => (restaurants.value = data))
 			.catch((err) => {
@@ -27,32 +22,58 @@
 			.finally(() => (loading.value = false));
 	});
 
-	const countries = ref();
+	const keyword = ref("");
+
+	const countries = computed(() => [...new Set(restaurants.value.map((r) => r.location.country))].sort());
 	const selectedCountry = ref();
 	const filteredCountries = ref();
 
-
 	const searchCountry = (event) => {
-		setTimeout(() => {
-			if (!event.query.trim().length) {
-				filteredCountries.value = [...countries.value];
-			} else {
-				filteredCountries.value = countries.value.filter((country) => {
-					return country.name.toLowerCase().startsWith(event.query.toLowerCase());
-				});
-			}
-		}, 250);
+		const query = event.query.trim().toLowerCase();
+		filteredCountries.value = query
+			? countries.value.filter((country) => country.toLowerCase().startsWith(query))
+			: [...countries.value];
 	}
 
+	const cities = computed(() => {
+		const pool = selectedCountry.value
+			? restaurants.value.filter((r) => r.location.country === selectedCountry.value)
+			: restaurants.value;
+		return [...new Set(pool.map((r) => r.location.city))].sort();
+	});
+	const selectedCity = ref();
+	const filteredCities = ref();
+
+	const searchCity = (event) => {
+		const query = event.query.trim().toLowerCase();
+		filteredCities.value = query
+			? cities.value.filter((city) => city.toLowerCase().startsWith(query))
+			: [...cities.value];
+	}
+
+	watch(selectedCountry, () => {
+		if (selectedCity.value && !cities.value.includes(selectedCity.value)) {
+			selectedCity.value = null;
+		}
+	});
+
+	const cuisineTypes = computed(() => [...new Set(restaurants.value.map((r) => r.type))].sort());
 	const selectedCuisines = ref();
-	const cuisines = ref([
-		{ name: 'French', code: 'french' },
-		{ name: 'Italian', code: 'italian' },
-		{ name: 'Japanese', code: 'japanese' },
-		{ name: 'Indian', code: 'indian' },
-		{ name: 'Fast food', code: 'ff' },
-		{ name: 'Korean', code: 'korean' }
-	]);
+
+	const filteredRestaurants = computed(() => {
+		const query = keyword.value.trim().toLowerCase();
+
+		return restaurants.value.filter((r) => {
+			const matchesKeyword = !query
+				|| r.name.toLowerCase().includes(query)
+				|| r.description.toLowerCase().includes(query);
+			const matchesCountry = !selectedCountry.value || r.location.country === selectedCountry.value;
+			const matchesCity = !selectedCity.value || r.location.city === selectedCity.value;
+			const matchesCuisine = !selectedCuisines.value?.length || selectedCuisines.value.includes(r.type);
+
+			return matchesKeyword && matchesCountry && matchesCity && matchesCuisine;
+		});
+	});
 
 
 </script>
@@ -68,23 +89,32 @@
 					</div>
 					<div class="filters">
 						<AutoComplete
+							v-model="keyword"
 							placeholder="Search by keyword"
 							size="large"
 						/>
 						<AutoComplete
 							v-model="selectedCountry"
-							optionLabel="name"
 							:suggestions="filteredCountries"
 							@complete="searchCountry"
+							forceSelection
 							placeholder="Search by country"
+							size="large"
+							showClear
+						/>
+						<AutoComplete
+							v-model="selectedCity"
+							:suggestions="filteredCities"
+							@complete="searchCity"
+							forceSelection
+							placeholder="Search by city"
 							size="large"
 							showClear
 						/>
 						<MultiSelect
 							v-model="selectedCuisines"
-							:options="cuisines"
+							:options="cuisineTypes"
 							showClear
-							optionLabel="name"
 							filter
 							placeholder="Cuisine type"
 							:max-selected-labels="4"
@@ -110,9 +140,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="wrapper" v-else-if="restaurants.length">
+					<div class="wrapper" v-else-if="filteredRestaurants.length">
 						<RestaurantCard
-							v-for="restau in restaurants"
+							v-for="restau in filteredRestaurants"
 							:key="restau.slug"
 							:slug="restau.slug"
 							:name="restau.name"
@@ -125,7 +155,9 @@
 						/>
 					</div>
 					<p v-else class="empty-state">
-						{{ error ? "Couldn't load the archive. Please try again later." : "No restaurants to show yet." }}
+						{{ error
+							? "Couldn't load the archive. Please try again later."
+							: restaurants.length ? "No restaurants match your filters." : "No restaurants to show yet." }}
 					</p>
 				</div>
 			</div>
@@ -241,6 +273,8 @@
 					.filters {
 						display: flex;
 						flex-direction: row;
+						flex-wrap: wrap;
+						row-gap: 12px;
 						column-gap: 24px;
 
 						.p-autocomplete, .p-multiselect {
