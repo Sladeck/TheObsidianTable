@@ -297,6 +297,7 @@ const priceSign = (level) => "$".repeat(level);
       }
 
       .verdict-block {
+        background-color: var(--SectionOff);
         border-left: 3px solid var(--Obsidian);
         border-top: 1px solid var(--Stroke);
         border-right: 1px solid var(--Stroke);
