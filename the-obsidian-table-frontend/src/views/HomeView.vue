@@ -1,14 +1,24 @@
 <script setup lang="ts">
 	import { RouterLink } from 'vue-router';
-	import { onMounted, onUnmounted } from 'vue'
+	import { ref, onMounted, onUnmounted } from 'vue'
 
 	// Components
 	import RestaurantCard from '@/components/RestaurantCard.vue'
 	import Scale from '@/components/Scale.vue';
+	import { Skeleton } from 'primevue';
 
-	// Assets
-	import Img1 from '@/assets/img/restaurant_1.png';
-	import Img2 from '@/assets/img/dark-plate.jpg';
+	// Services
+	import { RestaurantService } from '@/service/RestaurantService';
+
+	const restaurants = ref([]);
+	const loading = ref(true);
+
+	onMounted(() => {
+		RestaurantService.getRestaurants({ sort: 'latest', take: 3 })
+			.then((data) => (restaurants.value = data))
+			.catch((error) => console.error(error))
+			.finally(() => (loading.value = false));
+	});
 
 	if(window.innerWidth > 768) {
 		const handleScroll = () => {
@@ -60,36 +70,33 @@
 					<RouterLink to="/archives" class="underline">View All Archives</RouterLink>
 				</div>
 				<hr>
-				<div class="cards-wrapper">
+				<div class="cards-wrapper" v-if="loading">
+					<div class="skeleton-card" v-for="i in 3" :key="i">
+						<Skeleton height="250px" borderRadius="0" />
+						<div class="skeleton-card-body">
+							<Skeleton width="40%" height="0.75rem" class="mb-2" />
+							<Skeleton width="70%" height="1.8rem" class="mb-3" />
+							<Skeleton width="100%" height="0.9rem" class="mb-2" />
+							<Skeleton width="85%" height="0.9rem" class="mb-4" />
+							<div class="skeleton-card-footer">
+								<Skeleton width="35%" height="0.85rem" />
+								<Skeleton width="15%" height="0.85rem" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cards-wrapper" v-else>
 					<RestaurantCard
-						name="たなかさん"
-						:image="Img1"
-						:score="9.4"
-						:priceLevel=2
-						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
-						city="London, UK"
-						slug="vesper-and-vine"
-						cuisine="Japanese"
-					/>
-					<RestaurantCard
-						name="Le plus grand restaurant du monde"
-						:image="Img2"
-						:score="9.4"
-						:priceLevel=3
-						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
-						city="London, UK"
-						slug="le-plus-grand-restaurant-du-monde"
-						cuisine="French"
-					/>
-					<RestaurantCard
-						name="Vesper & Vine"
-						:image="Img1"
-						:score="9.4"
-						:priceLevel=1
-						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tristique gravida nisl in ullamcorper. In hac habitasse platea dictumst. Duis in nisi rutrum, auctor dolor et, lobortis mi. Suspendisse potenti. Duis at nisi est. Sed sollicitudin massa dapibus leo hendrerit suscipit. Aliquam interdum felis vel volutpat rhoncus."
-						city="London, UK"
-						slug="vesper-and-vine"
-						cuisine="Italian"
+						v-for="restau in restaurants"
+						:key="restau.slug"
+						:name="restau.name"
+						:image="restau.images[0]"
+						:score="restau.totalScore"
+						:priceLevel="restau.priceLevel"
+						:description="restau.description"
+						:city="restau.location.city"
+						:slug="restau.slug"
+						:cuisine="restau.type"
 					/>
 				</div>
 			</div>
@@ -211,7 +218,39 @@
 				gap: 32px;
 
 			}
+
+			.skeleton-card {
+				background-color: var(--BGCard);
+				border-radius: 4px;
+				overflow: hidden;
+				width: 320px;
+				border: 1px solid var(--Divider);
+
+				.skeleton-card-body {
+					padding: 18px;
+				}
+
+				.skeleton-card-footer {
+					display: flex;
+					justify-content: space-between;
+				}
+			}
 		}
+	}
+
+	.mb-2 {
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	.mb-3 {
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.mb-4 {
+		display: block;
+		margin-bottom: 16px;
 	}
 
 	#how-rating {
@@ -310,7 +349,8 @@
 					justify-content: space-between;
 					margin-top: 32px;
 
-					.restaurant-card {
+					.restaurant-card,
+					.skeleton-card {
 						width: calc(100vw / 3);
 					}
 				}

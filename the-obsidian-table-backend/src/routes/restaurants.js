@@ -36,9 +36,13 @@ function toRestaurantDTO(restaurant) {
 }
 
 router.get("/", async (req, res) => {
+  const sort = req.query.sort === "latest" ? "desc" : "asc";
+  const take = req.query.take ? Number(req.query.take) : undefined;
+
   const restaurants = await prisma.restaurant.findMany({
     include: { tags: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: sort },
+    take,
   });
 
   res.json(restaurants.map(toRestaurantDTO));

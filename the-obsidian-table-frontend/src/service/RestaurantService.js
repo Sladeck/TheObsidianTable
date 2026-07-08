@@ -1,8 +1,9 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
 
 export const RestaurantService = {
-    async getRestaurants() {
-        const response = await fetch(`${API_BASE_URL}/restaurants`);
+    async getRestaurants(params = {}) {
+        const query = new URLSearchParams(params).toString();
+        const response = await fetch(`${API_BASE_URL}/restaurants${query ? `?${query}` : ""}`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch restaurants (${response.status})`);
