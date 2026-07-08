@@ -48,7 +48,7 @@ const priceSign = (level) => "$".repeat(level);
             </div>
 
             <div class="hero-carousel">
-              <Carousel :value="restaurant.images" :numVisible="1" :numScroll="1">
+              <Carousel :value="restaurant.images" :numVisible="1" :numScroll="1" circular>
                 <template #item="slotProps">
                   <img :src="slotProps.data" :alt="restaurant.name" class="carousel-image" />
                 </template>
@@ -215,6 +215,7 @@ const priceSign = (level) => "$".repeat(level);
         display: flex;
         flex-direction: column;
         gap: 32px;
+        margin-top: 24px;
         margin-bottom: 32px;
 
         .hero-info {
@@ -270,6 +271,7 @@ const priceSign = (level) => "$".repeat(level);
             .tag {
               display: inline-block;
               color: var(--TextMuted);
+              background-color: var(--SectionOff);
               font-size: 0.75rem;
               text-transform: uppercase;
               letter-spacing: 0.05em;

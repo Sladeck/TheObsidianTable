@@ -40,7 +40,7 @@
         <template #header>
             <div class="card-image-wrapper">
                 <img :src="image" :alt="name" class="card-image" />
-                <span class="card-score gradient-text">{{ score }}</span>
+                <span class="card-score"><span class="gradient-text">{{ score }}</span></span>
             </div>
         </template>
         <template #title>

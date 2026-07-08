@@ -38,7 +38,7 @@
 			}
 			if (title) {
 				title.style.transform = `translateY(${scrollY * 0.5}px)`;
-				title.style.fontSize = `${2.5 + scrollY * 0.0025}rem`;
+				title.style.fontSize = `${3 + scrollY * 0.0025}rem`;
 			}
 			if (subtitle) {
 				subtitle.style.transform = `translateY(${scrollY * 0.1}px)`;
@@ -346,9 +346,9 @@
 					letter-spacing: 7px;
 				}
 
-				h2 {
+				.hero-title {
 					text-align: center;
-					font-size: 58px;
+					font-size: 48px;
 				}
 			}
 		}
