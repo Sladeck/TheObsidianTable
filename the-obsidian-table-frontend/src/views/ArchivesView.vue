@@ -34,7 +34,7 @@
 	const searchLocation = (event) => {
 		const query = event.query.trim().toLowerCase();
 		filteredLocations.value = query
-			? locations.value.filter((location) => location.toLowerCase().startsWith(query))
+			? locations.value.filter((location) => location.toLowerCase().includes(query))
 			: [...locations.value];
 	}
 
@@ -43,14 +43,15 @@
 
 	const filteredRestaurants = computed(() => {
 		const query = keyword.value.trim().toLowerCase();
+		const locationQuery = (selectedLocation.value || "").trim().toLowerCase();
 
 		return restaurants.value.filter((r) => {
 			const matchesKeyword = !query
 				|| r.name.toLowerCase().includes(query)
 				|| r.description.toLowerCase().includes(query);
-			const matchesLocation = !selectedLocation.value
-				|| r.location.country === selectedLocation.value
-				|| r.location.city === selectedLocation.value;
+			const matchesLocation = !locationQuery
+				|| r.location.country.toLowerCase().includes(locationQuery)
+				|| r.location.city.toLowerCase().includes(locationQuery);
 			const matchesCuisine = !selectedCuisines.value?.length || selectedCuisines.value.includes(r.type);
 
 			return matchesKeyword && matchesLocation && matchesCuisine;
@@ -79,7 +80,6 @@
 							v-model="selectedLocation"
 							:suggestions="filteredLocations"
 							@complete="searchLocation"
-							forceSelection
 							placeholder="Search by country or city"
 							size="large"
 							showClear
