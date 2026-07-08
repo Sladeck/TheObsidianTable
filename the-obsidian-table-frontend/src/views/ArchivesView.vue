@@ -13,13 +13,17 @@
 
 	const restaurants = ref([]);
 	const loading = ref(true);
+	const error = ref(false);
 
 	onMounted(() => {
 		CountryService.getCountries().then((data) => (countries.value = data));
 
 		RestaurantService.getRestaurants()
 			.then((data) => (restaurants.value = data))
-			.catch((error) => console.error(error))
+			.catch((err) => {
+				console.error(err);
+				error.value = true;
+			})
 			.finally(() => (loading.value = false));
 	});
 
@@ -120,7 +124,9 @@
 							:city="restau.location.city"
 						/>
 					</div>
-					<p v-else class="empty-state">No restaurants to show yet.</p>
+					<p v-else class="empty-state">
+						{{ error ? "Couldn't load the archive. Please try again later." : "No restaurants to show yet." }}
+					</p>
 				</div>
 			</div>
 

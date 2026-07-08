@@ -12,11 +12,15 @@
 
 	const restaurants = ref([]);
 	const loading = ref(true);
+	const error = ref(false);
 
 	onMounted(() => {
 		RestaurantService.getRestaurants({ sort: 'latest', take: 3 })
 			.then((data) => (restaurants.value = data))
-			.catch((error) => console.error(error))
+			.catch((err) => {
+				console.error(err);
+				error.value = true;
+			})
 			.finally(() => (loading.value = false));
 	});
 
@@ -85,7 +89,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="cards-wrapper" v-else>
+				<div class="cards-wrapper" v-else-if="restaurants.length">
 					<RestaurantCard
 						v-for="restau in restaurants"
 						:key="restau.slug"
@@ -99,6 +103,9 @@
 						:cuisine="restau.type"
 					/>
 				</div>
+				<p v-else class="empty-state">
+					{{ error ? "Couldn't load the latest dispatches. Please try again later." : "No dispatches yet." }}
+				</p>
 			</div>
 		</div>
 
@@ -217,6 +224,11 @@
 				flex-direction: column;
 				gap: 32px;
 
+			}
+
+			.empty-state {
+				color: var(--TextMuted);
+				padding: 24px 0;
 			}
 
 			.skeleton-card {
