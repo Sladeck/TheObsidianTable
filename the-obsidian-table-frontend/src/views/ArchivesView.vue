@@ -40,9 +40,10 @@
 	]);
 
 	const cardRestaurants = [
+		{"id": 0, "slug": "lumiere-brasserie", "img_url": "https://picsum.photos/800/600?random=1", "name": "Lumière Brasserie", "location": "Paris", "type": "Parisian Brasserie", "score": {"total": 8.3, "food": 9.5, "atmo": 8.0, "service": 9.0, "price": 7.0}, "description": "A masterful reimagining of classic French technique, obscured in shadows and illuminated by brilliant execution.", "cuisine": "French", "priceLevel":4, "city": "Paris"},
 		{"id": 1, "img_url": "https://picsum.photos/200/300", "name": "The Great Burger", "location": "Tokyo", "type": "Fast Food", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Fusce tortor urna, tempor id luctus nec, consequat sed urna. Aenean quis sagittis turpis. Nunc sagittis iaculis fermentum. Aliquam rhoncus dapibus neque, eget laoreet purus interdum eget. Pellentesque cursus lacinia mauris, vel condimentum purus suscipit id. Fusce sollicitudin nec nisi eget gravida.", "cuisine": "Fast Food", "priceLevel":1, "city": "Tokyo"},
-		{"id": 2, "img_url": "https://picsum.photos/200/300", "name": "Le Procope", "location": "Paris", "type": "French", "score": {"total": 7.2, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "French", "priceLevel":2, "city": "Paris"},
-		{"id": 3, "img_url": "https://picsum.photos/200/300", "name": "Taverna Milieu", "location": "France", "type": "French", "score": {"total": 7.8, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "Italian", "priceLevel":3, "city": "Tokyo"},
+		{"id": 2, "slug": "le-procope", "img_url": "https://picsum.photos/200/300", "name": "Le Procope", "location": "Paris", "type": "French", "score": {"total": 7.2, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "French", "priceLevel":2, "city": "Paris"},
+		{"id": 3, "slug": "taverna-milieu", "img_url": "https://picsum.photos/200/300", "name": "Taverna Milieu", "location": "France", "type": "French", "score": {"total": 7.8, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "Italian", "priceLevel":3, "city": "Tokyo"},
 		{"id": 4, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
 		{"id": 5, "img_url": "https://picsum.photos/200/300", "name": "Le plus grand restaurant du monde", "location": "Tokyo", "type": "Japanese", "score": {"total": 9.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
 		{"id": 6, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
@@ -95,6 +96,7 @@
 						<RestaurantCard
 							v-for="restau in cardRestaurants"
 							:key="restau.id"
+							:slug="restau.slug"
 							:name="restau.name"
 							:score="restau.score.total"
 							:description="restau.description"
