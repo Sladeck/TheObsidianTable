@@ -8,34 +8,42 @@ datasource db {
 }
 
 model Restaurant {
-  id        Int    @id @default(autoincrement())
-  slug      String @unique
-  name      String
-  type      String
-  tagline   String
-  score     Float
-  verdict   String
-  images    String[]
+  id   Int    @id @default(autoincrement())
+  slug String @unique
 
-  qualityScore    Float
-  atmosphereScore Float
-  priceScore      Float
-  serviceScore    Float
+  name        String
+  description String
+  type        String // cuisine, e.g. "French", "Japanese", "Fast Food"
 
-  address     String
-  city        String
-  priceLevel  String
-  priceNote   String
-  hours       String
-  hoursDetail String
+  totalScore   Float
+  scoreFood    Float
+  scoreService Float
+  scoreAtmo    Float
+  scorePrice   Float
 
-  reviewQualityTitle     String
-  reviewQualityText      String
-  reviewAtmosphereTitle  String
-  reviewAtmosphereText   String
-  reviewServiceTitle     String
-  reviewServiceText      String
+  country String
+  city    String
+
+  tags Tag[]
+
+  images        String[]
+  verdict       String
+  address       String
+  googleMapsUrl String
+  priceLevel    Int // 1-4, rendered as $ / $$ / $$$ / $$$$
+  priceNote     String
+
+  reviewFoodText    String
+  reviewAtmoText    String
+  reviewServiceText String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  restaurants Restaurant[]
 }

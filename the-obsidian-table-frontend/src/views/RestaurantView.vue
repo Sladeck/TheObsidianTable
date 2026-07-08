@@ -23,6 +23,8 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+const priceSign = (level) => "$".repeat(level);
 </script>
 
 <template>
@@ -36,10 +38,13 @@ onMounted(async () => {
               <span class="restaurant-type">{{ restaurant.type }}</span>
               <h1 class="playfair-display">{{ restaurant.name }}</h1>
               <div class="score-display">
-                <span class="score-number">{{ restaurant.score }}</span>
+                <span class="score-number">{{ restaurant.totalScore }}</span>
                 <span class="score-max">/ 10</span>
               </div>
-              <p class="tagline">{{ restaurant.tagline }}</p>
+              <p class="tagline">{{ restaurant.description }}</p>
+              <div class="tags" v-if="restaurant.tags.length">
+                <span class="tag" v-for="tag in restaurant.tags" :key="tag">{{ tag }}</span>
+              </div>
             </div>
 
             <div class="hero-carousel">
@@ -60,8 +65,8 @@ onMounted(async () => {
             <div class="breakdown-block">
               <h3 class="playfair-display">G-Scale - The Breakdown</h3>
               <div class="scales-grid">
-                <ScoreScale title="Quality" :score="restaurant.scores.quality" />
-                <ScoreScale title="Atmosphere" :score="restaurant.scores.atmosphere" />
+                <ScoreScale title="Quality" :score="restaurant.scores.food" />
+                <ScoreScale title="Atmosphere" :score="restaurant.scores.atmo" />
                 <ScoreScale title="Price" :score="restaurant.scores.price" />
                 <ScoreScale title="Service" :score="restaurant.scores.service" />
               </div>
@@ -72,21 +77,22 @@ onMounted(async () => {
               <div class="logistics-item">
                 <span class="logistics-icon">📍</span>
                 <div>
-                  <p>{{ restaurant.logistics.address }}</p>
-                  <p>{{ restaurant.logistics.city }}</p>
+                  <p>{{ restaurant.location.address }}</p>
+                  <p>{{ restaurant.location.city }}, {{ restaurant.location.country }}</p>
                 </div>
               </div>
               <div class="logistics-item">
                 <span class="logistics-icon">💳</span>
-                <p>{{ restaurant.logistics.priceLevel }} ({{ restaurant.logistics.priceNote }})</p>
+                <p>{{ priceSign(restaurant.priceLevel) }} ({{ restaurant.priceNote }})</p>
               </div>
-              <div class="logistics-item">
-                <span class="logistics-icon">🕐</span>
-                <div>
-                  <p>{{ restaurant.logistics.hours }}</p>
-                  <p>{{ restaurant.logistics.hoursDetail }}</p>
-                </div>
-              </div>
+              <a
+                class="maps-button"
+                :href="restaurant.location.googleMapsUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on Google Maps
+              </a>
             </div>
           </div>
 
@@ -94,18 +100,18 @@ onMounted(async () => {
             <h2 class="playfair-display">The Review</h2>
 
             <div class="review-block">
-              <h3 class="playfair-display">{{ restaurant.review.quality.title }}</h3>
-              <p>{{ restaurant.review.quality.text }}</p>
+              <h3 class="playfair-display">Quality</h3>
+              <p>{{ restaurant.review.food }}</p>
             </div>
 
             <div class="review-block">
-              <h3 class="playfair-display">{{ restaurant.review.atmosphere.title }}</h3>
-              <p>{{ restaurant.review.atmosphere.text }}</p>
+              <h3 class="playfair-display">Atmosphere</h3>
+              <p>{{ restaurant.review.atmo }}</p>
             </div>
 
             <div class="review-block">
-              <h3 class="playfair-display">{{ restaurant.review.service.title }}</h3>
-              <p>{{ restaurant.review.service.text }}</p>
+              <h3 class="playfair-display">Service &amp; Value</h3>
+              <p>{{ restaurant.review.service }}</p>
             </div>
           </div>
         </template>
@@ -118,7 +124,9 @@ onMounted(async () => {
               <Skeleton width="6rem" height="3.5rem" class="mb-3" />
               <Skeleton width="100%" height="1rem" class="mb-2" />
               <Skeleton width="90%" height="1rem" class="mb-2" />
-              <Skeleton width="60%" height="1rem" />
+              <Skeleton width="60%" height="1rem" class="mb-3" />
+              <Skeleton width="5rem" height="1.5rem" borderRadius="4px" style="display: inline-block; margin-right: 8px;" />
+              <Skeleton width="6rem" height="1.5rem" borderRadius="4px" style="display: inline-block;" />
             </div>
 
             <div class="hero-carousel">
@@ -145,13 +153,14 @@ onMounted(async () => {
 
             <div class="logistics-block">
               <Skeleton width="6rem" height="0.85rem" class="mb-4" />
-              <div v-for="i in 3" :key="i" class="logistics-item">
+              <div v-for="i in 2" :key="i" class="logistics-item">
                 <Skeleton shape="circle" width="1.2rem" height="1.2rem" />
                 <div style="flex: 1;">
                   <Skeleton width="100%" height="0.9rem" class="mb-2" />
                   <Skeleton width="70%" height="0.9rem" />
                 </div>
               </div>
+              <Skeleton width="100%" height="2.5rem" borderRadius="4px" />
             </div>
           </div>
 
@@ -251,6 +260,24 @@ onMounted(async () => {
             font-size: 1rem;
             line-height: 1.6;
           }
+
+          .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+
+            .tag {
+              display: inline-block;
+              color: var(--TextMuted);
+              font-size: 0.75rem;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              padding: 4px 10px;
+              border: 1px solid var(--Stroke);
+              border-radius: 999px;
+            }
+          }
         }
 
         .hero-carousel {
@@ -345,6 +372,24 @@ onMounted(async () => {
               color: var(--TextMuted);
               font-size: 0.9rem;
               margin: 2px 0;
+            }
+          }
+
+          .maps-button {
+            display: block;
+            text-align: center;
+            color: var(--WhiteAshes);
+            background-color: var(--Obsidian);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            transition: opacity 0.2s ease;
+
+            &:hover {
+              opacity: 0.85;
             }
           }
         }

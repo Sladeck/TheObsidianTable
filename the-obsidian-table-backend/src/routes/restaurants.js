@@ -8,43 +8,36 @@ function toRestaurantDTO(restaurant) {
     slug: restaurant.slug,
     name: restaurant.name,
     type: restaurant.type,
-    score: restaurant.score,
-    tagline: restaurant.tagline,
+    description: restaurant.description,
+    totalScore: restaurant.totalScore,
     images: restaurant.images,
     verdict: restaurant.verdict,
     scores: {
-      quality: restaurant.qualityScore,
-      atmosphere: restaurant.atmosphereScore,
-      price: restaurant.priceScore,
-      service: restaurant.serviceScore,
+      food: restaurant.scoreFood,
+      atmo: restaurant.scoreAtmo,
+      price: restaurant.scorePrice,
+      service: restaurant.scoreService,
     },
-    logistics: {
+    location: {
       address: restaurant.address,
       city: restaurant.city,
-      priceLevel: restaurant.priceLevel,
-      priceNote: restaurant.priceNote,
-      hours: restaurant.hours,
-      hoursDetail: restaurant.hoursDetail,
+      country: restaurant.country,
+      googleMapsUrl: restaurant.googleMapsUrl,
     },
+    priceLevel: restaurant.priceLevel,
+    priceNote: restaurant.priceNote,
+    tags: restaurant.tags.map((tag) => tag.name),
     review: {
-      quality: {
-        title: restaurant.reviewQualityTitle,
-        text: restaurant.reviewQualityText,
-      },
-      atmosphere: {
-        title: restaurant.reviewAtmosphereTitle,
-        text: restaurant.reviewAtmosphereText,
-      },
-      service: {
-        title: restaurant.reviewServiceTitle,
-        text: restaurant.reviewServiceText,
-      },
+      food: restaurant.reviewFoodText,
+      atmo: restaurant.reviewAtmoText,
+      service: restaurant.reviewServiceText,
     },
   };
 }
 
 router.get("/", async (req, res) => {
   const restaurants = await prisma.restaurant.findMany({
+    include: { tags: true },
     orderBy: { createdAt: "asc" },
   });
 
@@ -54,6 +47,7 @@ router.get("/", async (req, res) => {
 router.get("/:slug", async (req, res) => {
   const restaurant = await prisma.restaurant.findUnique({
     where: { slug: req.params.slug },
+    include: { tags: true },
   });
 
   if (!restaurant) {

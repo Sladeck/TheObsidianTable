@@ -1,15 +1,26 @@
 <script setup>
 	import { ref, onMounted } from "vue";
-	import { AutoComplete, MultiSelect } from "primevue";
+	import { AutoComplete, MultiSelect, Skeleton } from "primevue";
 	
 	// Assets
 	import { CountryService } from "@/service/CountryService";
 
+	// Services
+	import { RestaurantService } from "@/service/RestaurantService";
+
 	// Components
 	import RestaurantCard from "@/components/RestaurantCard.vue";
 
+	const restaurants = ref([]);
+	const loading = ref(true);
+
 	onMounted(() => {
 		CountryService.getCountries().then((data) => (countries.value = data));
+
+		RestaurantService.getRestaurants()
+			.then((data) => (restaurants.value = data))
+			.catch((error) => console.error(error))
+			.finally(() => (loading.value = false));
 	});
 
 	const countries = ref();
@@ -39,18 +50,6 @@
 		{ name: 'Korean', code: 'korean' }
 	]);
 
-	const cardRestaurants = [
-		{"id": 0, "slug": "lumiere-brasserie", "img_url": "https://picsum.photos/800/600?random=1", "name": "Lumière Brasserie", "location": "Paris", "type": "Parisian Brasserie", "score": {"total": 8.3, "food": 9.5, "atmo": 8.0, "service": 9.0, "price": 7.0}, "description": "A masterful reimagining of classic French technique, obscured in shadows and illuminated by brilliant execution.", "cuisine": "French", "priceLevel":4, "city": "Paris"},
-		{"id": 1, "img_url": "https://picsum.photos/200/300", "name": "The Great Burger", "location": "Tokyo", "type": "Fast Food", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Fusce tortor urna, tempor id luctus nec, consequat sed urna. Aenean quis sagittis turpis. Nunc sagittis iaculis fermentum. Aliquam rhoncus dapibus neque, eget laoreet purus interdum eget. Pellentesque cursus lacinia mauris, vel condimentum purus suscipit id. Fusce sollicitudin nec nisi eget gravida.", "cuisine": "Fast Food", "priceLevel":1, "city": "Tokyo"},
-		{"id": 2, "slug": "le-procope", "img_url": "https://picsum.photos/200/300", "name": "Le Procope", "location": "Paris", "type": "French", "score": {"total": 7.2, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "French", "priceLevel":2, "city": "Paris"},
-		{"id": 3, "slug": "taverna-milieu", "img_url": "https://picsum.photos/200/300", "name": "Taverna Milieu", "location": "France", "type": "French", "score": {"total": 7.8, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum", "cuisine": "Italian", "priceLevel":3, "city": "Tokyo"},
-		{"id": 4, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-		{"id": 5, "img_url": "https://picsum.photos/200/300", "name": "Le plus grand restaurant du monde", "location": "Tokyo", "type": "Japanese", "score": {"total": 9.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-		{"id": 6, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-		{"id": 7, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-		{"id": 8, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-		{"id": 9, "img_url": "https://picsum.photos/200/300", "name": "N&S", "location": "Tokyo", "type": "Japanese", "score": {"total": 8.5, "food": 9.4, "atmo": 8.5, "service": 9, "price": 7}, "description": "Lorem Ipsum"},
-	]
 
 </script>
 
@@ -92,20 +91,36 @@
 				</div>
 				<hr>
 				<div class="card-archive">
-					<div class="wrapper">
+					<div class="wrapper" v-if="loading">
+						<div class="skeleton-card" v-for="i in 8" :key="i">
+							<Skeleton height="250px" borderRadius="0" />
+							<div class="skeleton-card-body">
+								<Skeleton width="40%" height="0.75rem" class="mb-2" />
+								<Skeleton width="70%" height="1.8rem" class="mb-3" />
+								<Skeleton width="100%" height="0.9rem" class="mb-2" />
+								<Skeleton width="85%" height="0.9rem" class="mb-4" />
+								<div class="skeleton-card-footer">
+									<Skeleton width="35%" height="0.85rem" />
+									<Skeleton width="15%" height="0.85rem" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="wrapper" v-else-if="restaurants.length">
 						<RestaurantCard
-							v-for="restau in cardRestaurants"
-							:key="restau.id"
+							v-for="restau in restaurants"
+							:key="restau.slug"
 							:slug="restau.slug"
 							:name="restau.name"
-							:score="restau.score.total"
+							:score="restau.totalScore"
 							:description="restau.description"
-							:image="restau.img_url"
-							:cuisine="restau.cuisine"
+							:image="restau.images[0]"
+							:cuisine="restau.type"
 							:priceLevel="restau.priceLevel"
-							:city="restau.city"
+							:city="restau.location.city"
 						/>
 					</div>
+					<p v-else class="empty-state">No restaurants to show yet.</p>
 				</div>
 			</div>
 
@@ -159,9 +174,46 @@
 						flex-direction: column;
 						row-gap: 24px;
 					}
+
+					.empty-state {
+						color: var(--TextMuted);
+						padding: 24px 0;
+					}
+
+					.skeleton-card {
+						background-color: var(--BGCard);
+						border-radius: 4px;
+						overflow: hidden;
+						width: 320px;
+						border: 1px solid var(--Divider);
+
+						.skeleton-card-body {
+							padding: 18px;
+						}
+
+						.skeleton-card-footer {
+							display: flex;
+							justify-content: space-between;
+						}
+					}
 				}
 			}
 		}
+	}
+
+	.mb-2 {
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	.mb-3 {
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.mb-4 {
+		display: block;
+		margin-bottom: 16px;
 	}
 
 @media (min-width: 768px) {
@@ -199,7 +251,8 @@
 						column-gap: 24px;
 						flex-wrap: wrap;
 						
-						.restaurant-card {
+						.restaurant-card,
+						.skeleton-card {
 							flex: 0 0 calc((100% - 3 * 24px) / 4);
 
 							.p-card-header {
