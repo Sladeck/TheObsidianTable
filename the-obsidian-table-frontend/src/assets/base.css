@@ -85,6 +85,14 @@ p {
     text-transform: uppercase;
 }
 
+.gradient-text {
+    color: var(--Obsidian);
+    background: linear-gradient(135deg, var(--Obsidian), var(--ObsidianFaded));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .btn-violet {
     background-color: var(--Obsidian);
     color: var(--WhiteAshes);

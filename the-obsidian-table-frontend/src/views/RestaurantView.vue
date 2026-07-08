@@ -38,7 +38,7 @@ const priceSign = (level) => "$".repeat(level);
               <span class="restaurant-type">{{ restaurant.type }}</span>
               <h1 class="playfair-display">{{ restaurant.name }}</h1>
               <div class="score-display">
-                <span class="score-number">{{ restaurant.totalScore }}</span>
+                <span class="score-number gradient-text">{{ restaurant.totalScore }}</span>
                 <span class="score-max">/ 10</span>
               </div>
               <p class="tagline">{{ restaurant.description }}</p>

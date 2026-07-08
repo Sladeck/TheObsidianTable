@@ -27,12 +27,6 @@
         router.push(`/restaurant/${props.slug}`)
     }
 
-    const scoreColor = (score: number) => {
-        if (score >= 9) return 'var(--Obsidian)'
-        if (score >= 7.5) return 'color-mix(in srgb, var(--Obsidian) 70%, var(--TextMuted))'
-        return 'var(--TextMuted)'
-    }
-
 </script>
 <template>
     <Card 
@@ -46,7 +40,7 @@
         <template #header>
             <div class="card-image-wrapper">
                 <img :src="image" :alt="name" class="card-image" />
-                <span class="card-score" :style="{ color: scoreColor(score) }">{{ score }}</span>
+                <span class="card-score gradient-text">{{ score }}</span>
             </div>
         </template>
         <template #title>

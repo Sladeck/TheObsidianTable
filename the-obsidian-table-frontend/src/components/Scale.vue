@@ -6,19 +6,29 @@
 		max?: number
 	}>()
 
+	const lerpColor = (from: string, to: string, t: number) => {
+		const parse = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16))
+		const [fr, fg, fb] = parse(from)
+		const [tr, tg, tb] = parse(to)
+		const mix = (a: number, b: number) => Math.round(a + (b - a) * t)
+		return `rgb(${mix(fr, tr)}, ${mix(fg, tg)}, ${mix(fb, tb)})`
+	}
+
 	const getBlockStyle = (i: number) => {
+		const color = lerpColor('#7B61FF', '#C0C1FF', (i - 1) / 9)
+
 		if (i < Math.floor(props.score) + 1) {
 			// fully filled
-			return { background: `#3a3a3a` }
+			return { background: color }
 		} else if (i === Math.floor(props.score) + 1) {
 			// partial block
 			const partial = (props.score % 1) * 100
 			return {
-				background: `linear-gradient(to right, #3a3a3a ${partial}%, #2a2a2a ${partial}%)`
+				background: `linear-gradient(to right, ${color} ${partial}%, var(--Stroke) ${partial}%)`
 			}
 		} else {
 			// empty
-			return { background: '#2a2a2a' }
+			return { background: 'var(--Stroke)' }
 		}
 	}
 </script>
@@ -27,7 +37,7 @@
 	<div class="score-scale">
 		<div class="header">
 			<span class="title">{{ title }}</span>
-			<span class="score">{{ score }}</span>
+			<span class="score gradient-text">{{ score }}</span>
 		</div>
 		<div class="blocks">
 			<div
@@ -61,7 +71,6 @@
 
 		.score {
 			font-family: 'Geist', sans-serif;
-			color: var(--);
 			font-size: 20px;
 			font-weight: 500;
 		}
