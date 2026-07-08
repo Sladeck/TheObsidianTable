@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, computed, watch, onMounted } from "vue";
+	import { ref, computed, onMounted } from "vue";
 	import { AutoComplete, MultiSelect, Skeleton } from "primevue";
 
 	// Services
@@ -24,38 +24,19 @@
 
 	const keyword = ref("");
 
-	const countries = computed(() => [...new Set(restaurants.value.map((r) => r.location.country))].sort());
-	const selectedCountry = ref();
-	const filteredCountries = ref();
-
-	const searchCountry = (event) => {
-		const query = event.query.trim().toLowerCase();
-		filteredCountries.value = query
-			? countries.value.filter((country) => country.toLowerCase().startsWith(query))
-			: [...countries.value];
-	}
-
-	const cities = computed(() => {
-		const pool = selectedCountry.value
-			? restaurants.value.filter((r) => r.location.country === selectedCountry.value)
-			: restaurants.value;
-		return [...new Set(pool.map((r) => r.location.city))].sort();
+	const locations = computed(() => {
+		const values = restaurants.value.flatMap((r) => [r.location.country, r.location.city]);
+		return [...new Set(values)].sort();
 	});
-	const selectedCity = ref();
-	const filteredCities = ref();
+	const selectedLocation = ref();
+	const filteredLocations = ref();
 
-	const searchCity = (event) => {
+	const searchLocation = (event) => {
 		const query = event.query.trim().toLowerCase();
-		filteredCities.value = query
-			? cities.value.filter((city) => city.toLowerCase().startsWith(query))
-			: [...cities.value];
+		filteredLocations.value = query
+			? locations.value.filter((location) => location.toLowerCase().startsWith(query))
+			: [...locations.value];
 	}
-
-	watch(selectedCountry, () => {
-		if (selectedCity.value && !cities.value.includes(selectedCity.value)) {
-			selectedCity.value = null;
-		}
-	});
 
 	const cuisineTypes = computed(() => [...new Set(restaurants.value.map((r) => r.type))].sort());
 	const selectedCuisines = ref();
@@ -67,11 +48,12 @@
 			const matchesKeyword = !query
 				|| r.name.toLowerCase().includes(query)
 				|| r.description.toLowerCase().includes(query);
-			const matchesCountry = !selectedCountry.value || r.location.country === selectedCountry.value;
-			const matchesCity = !selectedCity.value || r.location.city === selectedCity.value;
+			const matchesLocation = !selectedLocation.value
+				|| r.location.country === selectedLocation.value
+				|| r.location.city === selectedLocation.value;
 			const matchesCuisine = !selectedCuisines.value?.length || selectedCuisines.value.includes(r.type);
 
-			return matchesKeyword && matchesCountry && matchesCity && matchesCuisine;
+			return matchesKeyword && matchesLocation && matchesCuisine;
 		});
 	});
 
@@ -94,20 +76,11 @@
 							size="large"
 						/>
 						<AutoComplete
-							v-model="selectedCountry"
-							:suggestions="filteredCountries"
-							@complete="searchCountry"
+							v-model="selectedLocation"
+							:suggestions="filteredLocations"
+							@complete="searchLocation"
 							forceSelection
-							placeholder="Search by country"
-							size="large"
-							showClear
-						/>
-						<AutoComplete
-							v-model="selectedCity"
-							:suggestions="filteredCities"
-							@complete="searchCity"
-							forceSelection
-							placeholder="Search by city"
+							placeholder="Search by country or city"
 							size="large"
 							showClear
 						/>
