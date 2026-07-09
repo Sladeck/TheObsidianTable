@@ -4,7 +4,7 @@
 			<div class="wrapper">
 				<div class="about-hero">
 					<span class="eyebrow">The Person Behind The Plate</span>
-					<h2 class="playfair-display gradient-text">An Anonymous Observer.</h2>
+					<h2 class="playfair-display">An Anonymous Observer.</h2>
 				</div>
 
 				<div class="about-sections">
@@ -35,6 +35,8 @@
 			.wrapper {
 				max-width: 720px;
 				margin: 0 auto;
+				padding-top: 32px;
+				padding-bottom: 64px;
 
 				.about-hero {
 					text-align: center;
@@ -51,6 +53,7 @@
 					}
 
 					h2 {
+						color: var(--WhiteAshes);
 						font-size: 2.5rem;
 					}
 				}
