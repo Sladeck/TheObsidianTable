@@ -4,7 +4,7 @@
 			<div class="wrapper">
 				<div class="faq-hero">
 					<span class="eyebrow">Questions, Answered</span>
-					<h2 class="playfair-display gradient-text">Common Inquiries</h2>
+					<h2 class="playfair-display">Common Inquiries</h2>
 					<p>Clarifications on process, ethics, and the pursuit of honest reviews.</p>
 				</div>
 
@@ -52,6 +52,8 @@
 			.wrapper {
 				max-width: 900px;
 				margin: 0 auto;
+				padding-top: 32px;
+				padding-bottom: 64px;
 
 				.faq-hero {
 					text-align: center;
@@ -68,6 +70,7 @@
 					}
 
 					h2 {
+						color: var(--WhiteAshes);
 						font-size: 2.5rem;
 						margin-bottom: 16px;
 					}
@@ -103,7 +106,7 @@
 
 					h3 {
 						color: var(--WhiteAshes);
-						font-size: 1.3rem;
+						font-size: 1.6rem;
 						margin-bottom: 12px;
 					}
 
