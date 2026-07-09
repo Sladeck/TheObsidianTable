@@ -11,6 +11,7 @@
 		{ label: 'Philosophy', route: '/philosophy' },
 		{ label: 'Archives', route: '/archives' },
 		{ label: 'About', route: '/about' },
+		{ label: 'FAQ', route: '/faq' },
 	]
 
 	if(window.innerWidth > 768) {
