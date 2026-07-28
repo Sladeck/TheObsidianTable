@@ -13,7 +13,7 @@
 	const error = ref(false);
 
 	onMounted(() => {
-		RestaurantService.getRestaurants()
+		RestaurantService.getRestaurants({ sort: "latest" })
 			.then((data) => (restaurants.value = data))
 			.catch((err) => {
 				console.error(err);

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-	import { RouterView } from "vue-router";
-	import { onMounted, onUnmounted } from 'vue'
+	import { RouterView, RouterLink, useRoute } from "vue-router";
+	import { onMounted, onUnmounted, computed } from 'vue'
 	import Menubar from 'primevue/menubar';
 	import type { MenuItem } from 'primevue/menuitem'
 	import './assets/base.css'
 	import './assets/nav.css'
+
+	const route = useRoute()
+	const isAdminRoute = computed(() => route.path === '/login' || route.path.startsWith('/admin'))
 
 	const items: MenuItem[] = [
 		{ label: 'Home', route: '/' },
@@ -28,7 +31,7 @@
 </script>
 
 <template>
-	<header>
+	<header v-if="!isAdminRoute">
 		<Menubar :model="items" class="navbar">
 			<template #start>
 				<h1 class="blog-title playfair-display">The Obsidian Table</h1>
@@ -43,7 +46,7 @@
 
 	<RouterView />
 
-	<footer>
+	<footer v-if="!isAdminRoute">
 		<div class="footer-wrapper">
 			<div class="legals">
 				<span class="playfair-display">The Obsidian Table</span>
