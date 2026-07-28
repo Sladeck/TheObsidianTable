@@ -1,0 +1,10 @@
+**/node_modules
+**/.env
+**/.env.*
+!the-obsidian-table-backend/.env.example
+the-obsidian-table-backend/uploads/*
+!the-obsidian-table-backend/uploads/.gitkeep
+the-obsidian-table-frontend/dist
+.git
+.claude
+*.md

@@ -10,7 +10,7 @@
 	// Services
 	import { RestaurantService } from '@/service/RestaurantService';
 
-	const restaurants = ref([]);
+	const restaurants = ref<any[]>([]);
 	const loading = ref(true);
 	const error = ref(false);
 

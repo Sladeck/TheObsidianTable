@@ -6,6 +6,12 @@
     // Extra safety for array and object lookups, but may have false positives.
     "noUncheckedIndexedAccess": true,
 
+    // Several services (RestaurantService.js, AuthService.js) are plain JS.
+    // Allow importing them without a declaration file; don't type-check their
+    // internals since they were never authored against these strict settings.
+    "allowJs": true,
+    "checkJs": false,
+
     // Path mapping for cleaner imports.
     "paths": {
       "@/*": ["./src/*"]

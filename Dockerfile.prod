@@ -1,0 +1,30 @@
+# ---- Stage 1: build the Vue SPA ----
+FROM node:24-alpine AS frontend-build
+WORKDIR /frontend
+COPY the-obsidian-table-frontend/package*.json ./
+RUN npm ci
+COPY the-obsidian-table-frontend/ ./
+# Same-origin in production: the backend serves both API and SPA, so the
+# frontend calls /api directly, no absolute host, no CORS involved.
+ENV VITE_API_URL=/api
+RUN npm run build
+
+# ---- Stage 2: backend + static frontend ----
+FROM node:24-alpine
+WORKDIR /app
+
+# Prisma's query engine needs OpenSSL on Alpine.
+RUN apk add --no-cache openssl
+
+COPY the-obsidian-table-backend/package*.json ./
+COPY the-obsidian-table-backend/prisma ./prisma
+RUN npm install
+
+COPY the-obsidian-table-backend/ .
+RUN npx prisma generate
+
+COPY --from=frontend-build /frontend/dist ./public
+
+EXPOSE 3000
+
+CMD ["sh", "-c", "npx prisma migrate deploy && node src/server.js"]

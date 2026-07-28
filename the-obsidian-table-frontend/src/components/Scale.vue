@@ -7,7 +7,7 @@
 	}>()
 
 	const lerpColor = (from: string, to: string, t: number) => {
-		const parse = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16))
+		const parse = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)) as [number, number, number]
 		const [fr, fg, fb] = parse(from)
 		const [tr, tg, tb] = parse(to)
 		const mix = (a: number, b: number) => Math.round(a + (b - a) * t)

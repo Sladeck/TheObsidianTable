@@ -1,0 +1,59 @@
+# Production stack. Deploy from the repo root on the server with:
+#   docker compose -f docker-compose.prod.yml --env-file the-obsidian-table-backend/.env up -d --build
+#
+# The --env-file flag is required for the `db` service's ${POSTGRES_PASSWORD}
+# substitution below to resolve. That is the ONE secret in this stack that
+# passes through Compose's own variable interpolation (Postgres reads it as a
+# plain container env var, not via the app's bind-mounted .env/dotenv), so it
+# MUST be generated without a `$` character (e.g. `openssl rand -hex 32`) —
+# a `$`-bearing value here would hit the exact interpolation bug that
+# corrupted the bcrypt hash during local testing (see docker-compose.yml).
+# Every other secret (DATABASE_URL, JWT_SECRET, ADMIN_*, PUBLIC_BASE_URL,
+# CORS_ORIGIN) lives only in that bind-mounted .env, parsed by Node's own
+# dotenv, never touched by Compose interpolation.
+
+name: obsidian-table
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./the-obsidian-table-backend/.env:/app/.env:ro
+      - obsidian_table_uploads:/app/uploads
+    depends_on:
+      - db
+    networks:
+      - default
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.obsidian-table.rule=Host(`theobsidiantable.example`)" # TODO: replace with the real domain once registered
+      - "traefik.http.routers.obsidian-table.entrypoints=websecure"
+      - "traefik.http.routers.obsidian-table.tls.certresolver=le"
+      - "traefik.http.services.obsidian-table.loadbalancer.server.port=3000"
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_USER=obsidian_user
+      - POSTGRES_DB=obsidian_table
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - default
+    volumes:
+      - obsidian_table_pgdata:/var/lib/postgresql/data
+
+networks:
+  web:
+    external: true
+
+volumes:
+  obsidian_table_pgdata:
+  obsidian_table_uploads:
