@@ -1,18 +1,15 @@
-version: "3.3"
-
 services:
   app:
     build: ./the-obsidian-table-backend
     ports:
       - "3000:3000"
-    env_file:
-      - ./the-obsidian-table-backend/.env
     environment:
       - PORT=3000
       - DATABASE_URL=postgresql://obsidian_user:yourpassword@db:5432/obsidian_table
     depends_on:
       - db
     volumes:
+      - ./the-obsidian-table-backend/.env:/app/.env:ro
       - obsidian_uploads:/app/uploads
 
   db:
