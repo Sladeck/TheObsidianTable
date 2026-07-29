@@ -1,3 +1,27 @@
+<script setup>
+	import { ref, computed } from 'vue'
+
+	// Split so the address is never a plain "user@domain" string in the
+	// shipped HTML/JS - defeats simple scrapers that regex-scan for email
+	// patterns. Only assembled after the user clicks through the gate below.
+	const emailParts = ['gm.moulin', 'proton.me']
+
+	const checking = ref(false)
+	const verified = ref(false)
+
+	const emailAddress = computed(() => (verified.value ? `${emailParts[0]}@${emailParts[1]}` : ''))
+	const mailtoHref = computed(() => `mailto:${emailAddress.value}`)
+
+	function verify() {
+		if (verified.value || checking.value) return
+		checking.value = true
+		setTimeout(() => {
+			checking.value = false
+			verified.value = true
+		}, 550)
+	}
+</script>
+
 <template>
 	<main id="about" class="main">
 		<div class="section">
@@ -23,6 +47,21 @@
 						<p>I started this project because I love the stories that food can tell. In a world of sponsored posts and filtered photos, I wanted a space to talk about the meals that actually moved me. This isn't about technical perfection; it's about the joy of discovery and the craft of the kitchen.</p>
 						<p>My goal is simple: to find the places that care deeply about what they put on the plate. Whether it's a high-end tasting menu or a hidden neighborhood gem, I'm here to celebrate the chefs and teams who make dining out a memorable adventure.</p>
 					</div>
+
+					<div class="about-block contact-block">
+						<span class="contact-label">Contact Me</span>
+
+						<div v-if="!verified" class="captcha-gate">
+							Click me to reveal:
+							<button type="button" class="captcha-checkbox" :disabled="checking" @click="verify">
+								<span class="checkbox-box">
+									<span v-if="checking" class="checkbox-spinner"></span>
+								</span>
+								<span class="checkbox-label">{{ checking ? 'Verifying…' : "I'm not a robot" }}</span>
+							</button>
+						</div>
+						<a v-else :href="mailtoHref" class="email-reveal">{{ emailAddress }}</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -33,7 +72,7 @@
 	#about {
 		.section {
 			.wrapper {
-				max-width: 720px;
+				max-width: 900px;
 				margin: 0 auto;
 				padding-top: 32px;
 				padding-bottom: 64px;
@@ -89,8 +128,89 @@
 							}
 						}
 					}
+
+					.contact-block {
+						display: flex;
+						flex-direction: column;
+
+						.contact-label {
+							display: block;
+							color: var(--Obsidian);
+							font-family: 'Geist', sans-serif;
+							text-transform: uppercase;
+							font-size: 0.75rem;
+							letter-spacing: 2px;
+							margin-bottom: 20px;
+						}
+
+						.captcha-checkbox {
+							display: flex;
+							align-items: center;
+							gap: 12px;
+							background-color: var(--BGBackground);
+							border: 1px solid var(--Stroke);
+							border-radius: 4px;
+							padding: 12px 16px;
+							cursor: pointer;
+							transition: border-color 0.2s ease;
+
+							&:hover:not(:disabled) {
+								border-color: var(--Obsidian);
+							}
+
+							&:disabled {
+								cursor: default;
+							}
+
+							.checkbox-box {
+								flex-shrink: 0;
+								width: 20px;
+								height: 20px;
+								border: 1px solid var(--Stroke);
+								border-radius: 3px;
+								background-color: var(--BGCard);
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							}
+
+							.checkbox-spinner {
+								width: 12px;
+								height: 12px;
+								border: 2px solid var(--Stroke);
+								border-top-color: var(--Obsidian);
+								border-radius: 50%;
+								animation: contact-spin 0.6s linear infinite;
+							}
+
+							.checkbox-label {
+								color: var(--WhitePink);
+								font-size: 0.9rem;
+							}
+						}
+
+						.email-reveal {
+							margin-top: 10px;
+							color: var(--Obsidian);
+							font-size: 1.1rem;
+							font-weight: 600;
+							text-decoration: none;
+							word-break: break-all;
+							text-transform: lowercase;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
 				}
 			}
+		}
+	}
+
+	@keyframes contact-spin {
+		to {
+			transform: rotate(360deg);
 		}
 	}
 
@@ -105,6 +225,10 @@
 					}
 
 					.about-sections {
+						display: grid;
+						grid-template-columns: 1fr 1fr;
+						align-items: stretch;
+
 						.about-block {
 							padding: 40px;
 						}

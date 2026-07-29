@@ -115,7 +115,7 @@
 					<div class="text-section">
 						<h3 class="playfair-display capitalize">How I score my meals</h3>
 						<h4 class="capitalize">The G-Scale</h4>
-						<p>Our 0-10 scale is not arbitrary. It is a rigorously
+						<p>My 0-10 scale is not arbitrary. It is a rigorously
 							weighted average of four distinct pillars of the dining
 							experience, designed to separate genuine artistry
 							from mere spectacle.
