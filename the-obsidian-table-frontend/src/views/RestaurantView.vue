@@ -48,11 +48,12 @@ const priceSign = (level) => "$".repeat(level);
             </div>
 
             <div class="hero-carousel">
-              <Carousel :value="restaurant.images" :numVisible="1" :numScroll="1" circular>
+              <Carousel v-if="restaurant.images.length > 1" :value="restaurant.images" :numVisible="1" :numScroll="1" circular>
                 <template #item="slotProps">
                   <img :src="slotProps.data" :alt="restaurant.name" class="carousel-image" />
                 </template>
               </Carousel>
+              <img v-else-if="restaurant.images.length === 1" :src="restaurant.images[0]" :alt="restaurant.name" class="carousel-image" />
             </div>
           </div>
 

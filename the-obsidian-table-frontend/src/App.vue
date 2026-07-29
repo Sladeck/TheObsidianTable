@@ -3,6 +3,7 @@
 	import { onMounted, onUnmounted, computed } from 'vue'
 	import Menubar from 'primevue/menubar';
 	import type { MenuItem } from 'primevue/menuitem'
+	import logoUrl from '@/assets/icons/obsidian_table_logo.svg'
 	import './assets/base.css'
 	import './assets/nav.css'
 
@@ -34,7 +35,10 @@
 	<header v-if="!isAdminRoute">
 		<Menubar :model="items" class="navbar">
 			<template #start>
-				<h1 class="blog-title playfair-display">The Obsidian Table</h1>
+				<div class="blog-brand">
+					<img :src="logoUrl" alt="" class="blog-logo" />
+					<h1 class="blog-title playfair-display">The Obsidian Table</h1>
+				</div>
 			</template>
 			<template #item="{ item }">
 				<RouterLink :to="item.route" class="nav-item-link">

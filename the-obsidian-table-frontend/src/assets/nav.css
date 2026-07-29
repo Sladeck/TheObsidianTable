@@ -9,9 +9,14 @@ html body {
 		&.scrolled {
 			.navbar {
 				padding: 0.4rem 5rem;
-	
+
 				.blog-title {
-					font-size: 32px;
+					font-size: 28px;
+				}
+
+				.blog-logo {
+					height: 33px;
+					width: 33px;
 				}
 			}
 		}
@@ -22,12 +27,26 @@ html body {
 			justify-content: space-between;
 			background-color: var(--BGBackground);
 			width: 100%;
+			border: none;
+			border-radius: 0;
 			border-bottom: 1px solid #222227;
 
+			.blog-brand {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+
+			.blog-logo {
+				height: 33px;
+				width: 33px;
+				flex-shrink: 0;
+			}
+
 			.blog-title {
-				color: var(--Obsidian);
+				color: var(--WhiteAshes);
 				text-decoration: none;
-				font-size: 32px;
+				font-size: 28px;
 				transition: font-size 0.3s ease;
 			}
 
@@ -102,8 +121,13 @@ html body {
 				padding: 1rem 5rem;
 	
 				.blog-title {
-					font-size: 42px;
+					font-size: 38px;
 					text-decoration: none;
+				}
+
+				.blog-logo {
+					height: 43px;
+					width: 43px;
 				}
 	
 				ul.p-menubar-root-list {

@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "node:path";
+import fs from "node:fs";
 import restaurantsRouter from "./routes/restaurants.js";
 import authRouter from "./routes/auth.js";
 import uploadsRouter from "./routes/uploads.js";
@@ -55,7 +56,13 @@ app.use("/api", (req, res) => {
 // RegExp directly. The negative lookahead keeps missing /uploads/* files
 // from being swallowed into index.html.
 app.get(/^\/(?!uploads\/).*/, (req, res) => {
-  res.sendFile(path.join(process.cwd(), "public", "index.html"));
+  const indexPath = path.join(process.cwd(), "public", "index.html");
+  if (!fs.existsSync(indexPath)) {
+    // No built frontend here — expected in local dev, where the SPA runs
+    // separately via Vite. Only the prod image's public/ is populated.
+    return res.status(404).json({ error: "Not found" });
+  }
+  res.sendFile(indexPath);
 });
 
 app.use((err, req, res, next) => {

@@ -23,7 +23,7 @@
 				<div class="faq-grid">
 					<div class="faq-item">
 						<h3 class="playfair-display">"Can I contact you to promote my restaurant?"</h3>
-						<p>No. I don't do promos, PR invites, or sponsored content. I show up unannounced and pay my own way.</p>
+						<p>No. I don't do promos, PR invites, or sponsored content. I show up unannounced and pay my own way. Though you can contact me for a website!</p>
 					</div>
 
 					<div class="faq-item">
@@ -33,7 +33,7 @@
 
 					<div class="faq-item">
 						<h3 class="playfair-display">"Did you build this website yourself?"</h3>
-						<p>It's my digital chronicle, built to keep the focus on the plate.</p>
+						<p>Yes, both the design and the code, with some help of AI for professional needs in my career. I'm a freelancer with more than 8 years of experience, contact me if you need my help!</p>
 					</div>
 
 					<div class="faq-item">
