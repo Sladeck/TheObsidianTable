@@ -33,6 +33,10 @@ services:
       - web
     labels:
       - "traefik.enable=true"
+      # Required because this container sits on two networks (default, for
+      # talking to its own db, and web, for Traefik) — without this, Traefik
+      # doesn't know which network's IP to route through and times out.
+      - "traefik.docker.network=web"
       # Canonical host — serves the app.
       - "traefik.http.routers.obsidian-table.rule=Host(`the-obsidian-table.com`)"
       - "traefik.http.routers.obsidian-table.entrypoints=websecure"
